@@ -39,66 +39,69 @@
                         {{ end }}
                     </ul>
                     <div class="tab-content pb-5 pt-2 bg-transparent primary-font" id="pills-tabContent">
-                        {{ range $index, $element := .Site.Params.experience.items }}
+                        {{ range $index, $companyItem := .Site.Params.experience.items }}
                         {{ if (eq $index 0) }}
-                        <div 
-                            class="tab-pane fade show active bg-transparent" 
-                            role="tabpanel"
-                            id='pills-{{ replace .company " " "-" }}-{{ replace .date " " "-" }}'
-                            aria-labelledby='pills-{{ replace .company " " "-" }}-{{ replace .date " " "-" }}-tab'
-                        >
-                            <div>
-                                <span class="h4">{{ .job }}</span>
-                                <small>-</small>
-                                <a href="{{ .companyUrl }}" target="_blank">{{ .company }}</a>
-                                <div class="pb-1">
-                                    <small>{{ .date }}</small>
-                                    {{ if .info.enable | default true }}
-                                    <span class="p-2">
-                                        <span 
-                                            style="cursor: pointer;" 
-                                            data-bs-toggle="tooltip" 
-                                            data-bs-placement="top" 
-                                            data-bs-original-title={{ .info.content | default (print "Working as a " .job " at " .company ) }}
-                                        >
-                                            <i class="fas fa-info-circle fa-xs"></i>
-                                        </span>
-                                    </span>
-                                    {{ end }}
-                                </div>
+                          <div 
+                              class="tab-pane fade show active bg-transparent" 
+                              role="tabpanel"
+                              id='pills-{{ replace $companyItem.company " " "-" }}-{{ replace $companyItem.date " " "-" }}'
+                              aria-labelledby='pills-{{ replace $companyItem.company " " "-" }}-{{ replace $companyItem.date " " "-" }}-tab'
+                          >
+                        {{ range $jindex, $job := $companyItem.jobs }}
+                              <div>
+                                  <span class="h4">{{ $job.title }}</span>
+                                  <small>-</small>
+                                  <a href="{{ $companyItem.companyUrl }}" target="_blank">{{ $companyItem.company }}</a>
+                                  <div class="pb-1">
+                                      <small>{{ $job.date }}</small>
+                                      {{ if $job.info.enable | default false }}
+                                      <span class="p-2">
+                                          <span 
+                                              style="cursor: pointer;" 
+                                              data-bs-toggle="tooltip" 
+                                              data-bs-placement="top" 
+                                              data-bs-original-title={{ $job.info.content | default (print "Working as a " $job.title " at " $companyItem.company ) }}
+                                          >
+                                              <i class="fas fa-info-circle fa-xs"></i>
+                                          </span>
+                                      </span>
+                                      {{ end }}
+                                  </div>
 
-                                {{ if .featuredLink.enable | default false }}
-                                <div class="py-2 featuredLink">
-                                    <a class="p-2 px-4 btn btn-outline-primary btn-sm" href={{ .featuredLink.url | default "#" }} target="_blank">
-                                        {{ .featuredLink.name | default "Featured Link" }} 
-                                    </a>
-                                </div>
-                                {{ end }}
-                            </div>
+                                  {{ if $companyItem.featuredLink.enable | default false }}
+                                  <div class="py-2 featuredLink">
+                                      <a class="p-2 px-4 btn btn-outline-primary btn-sm" href={{ $companyItem.featuredLink.url | default "#" }} target="_blank">
+                                          {{ $companyItem.featuredLink.name | default "Featured Link" }} 
+                                      </a>
+                                  </div>
+                                  {{ end }}
+                              </div>
 
-                            {{ .content | markdownify}}
-                        </div>
+                              {{ $job.content | markdownify}}
+                        {{ end }}
+                          </div>
                         {{ else }}
                         <div 
                             class="tab-pane fade bg-transparent" 
                             role="tabpanel"
-                            id='pills-{{ replace .company " " "-" }}-{{ replace .date " " "-" }}'
-                            aria-labelledby='pills-{{ replace .company " " "-" }}-{{ replace .date " " "-" }}-tab'
+                            id='pills-{{ replace $companyItem.company " " "-" }}-{{ replace $companyItem.date " " "-" }}'
+                            aria-labelledby='pills-{{ replace $companyItem.company " " "-" }}-{{ replace $companyItem.date " " "-" }}-tab'
                         >
+                        {{ range $jindex, $job := $companyItem.jobs }}
                             <div>
-                                <span class="h4">{{ .job }}</span>
+                                <span class="h4">{{ $job.title }}</span>
                                 <small>-</small>
-                                <a href="{{ .companyUrl }}" target="_blank">{{ .company }}</a>
+                                <a href="{{ $companyItem.companyUrl }}" target="_blank">{{ $companyItem.company }}</a>
                                 
                                 <div class="pb-1">
-                                    <small>{{ .date }}</small>
-                                    {{ if .info.enable | default true }}
+                                    <small>{{ $job.date }}</small>
+                                    {{ if $job.info.enable | default false }}
                                     <span class="p-2">
                                         <span 
                                             style="cursor: pointer;" 
                                             data-bs-toggle="tooltip" 
                                             data-bs-placement="top" 
-                                            data-bs-original-title={{ .info.content | default (print "Worked as a " .job " at " .company ) }}
+                                            data-bs-original-title={{ $job.info.content | default (print "Worked as a " $job.title " at " $companyItem.company ) }}
                                         > 
                                             <i class="fas fa-info-circle fa-xs"></i>
                                         </span>
@@ -116,8 +119,9 @@
                             </div>
 
                             <div class="pt-2">
-                                {{ .content | markdownify}}
+                                {{ $job.content | markdownify}}
                             </div>
+                        {{ end }}
                         </div>
                         {{ end }}
                         {{ end }}
