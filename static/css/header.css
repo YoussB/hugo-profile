@@ -16,6 +16,10 @@ header .navbar .navbar-nav a {
     color: var(--text-color) !important;
 }
 
+#theme-toggle svg{
+    vertical-align: baseline;
+}
+
 .navbar-toggler {
     border: none;
     outline: none;
