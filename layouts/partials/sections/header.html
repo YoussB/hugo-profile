@@ -107,6 +107,15 @@
                     </li>
                     {{ end }}
 
+                    {{ if and (.Site.Params.services.enable | default false) (not (.Site.Params.navbar.menus.disableServices | default false)) }}
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="{{ .Site.BaseURL | relURL }}#services"
+                            aria-label="services">
+                            {{ .Site.Params.services.title | default "services" }}
+                        </a>
+                    </li>
+                    {{ end }}
+
                     {{ if and (.Site.Params.contact.enable | default false) (not (.Site.Params.navbar.menus.disableContact | default false)) }}
                     <li class="nav-item navbar-text">
                         <a class="nav-link" href="{{ .Site.BaseURL | relURL }}#contact"
