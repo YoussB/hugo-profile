@@ -92,3 +92,76 @@
 {{ if (.Site.Params.customScripts | default false) }}
 {{ .Site.Params.customScripts | safeHTML }}
 {{ end }}
+
+<script>
+    {{/*  document.addEventListener('scroll', function() {
+        const sections = document.querySelectorAll('section');
+        const currentScrollPosition = window.pageYOffset;
+      
+        for (let i = 0; i < sections.length; i++) {
+          const section = sections[i];
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+      
+          if (currentScrollPosition >= sectionTop && currentScrollPosition < sectionTop + sectionHeight) {
+            // User is currently viewing this section
+            if (currentScrollPosition > sectionTop + sectionHeight / 2) {
+              // User scrolled past half the section
+              navigateToSection(i + 1);
+            }
+            break;
+          }
+        }
+      });  */}}
+
+      function getCurrentSection() {
+        const sections = document.querySelectorAll('section');
+        let maxSection = null;
+        let maxVisibleHeight = 0;
+    
+        sections.forEach((section, i) => {
+            const rect = section.getBoundingClientRect();
+            const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+    
+            if (visibleHeight > maxVisibleHeight) {
+                maxVisibleHeight = visibleHeight;
+                maxSection = i;
+            }
+        });
+    
+        return maxSection;
+    }
+      function footerInView() {
+        const footer = document.querySelectorAll('footer')[0];
+        let maxSection = null;
+        let maxVisibleHeight = 0;
+    
+        const rect = footer.getBoundingClientRect();
+        const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+
+        if (visibleHeight > maxVisibleHeight) {
+            return true
+        }
+        return false;
+    }
+      
+      function navigateToSection(index) {
+        let currSectionIndex = getCurrentSection();
+        const sections = document.querySelectorAll('#content section');
+        if (currSectionIndex < sections.length - 1) {
+          {{/*  sections[currSectionIndex+1].scrollIntoView({ behavior: 'smooth' });  */}}
+          location.hash = "#" + sections[currSectionIndex + 1].id;
+        } else if (footerInView()) {
+          location.hash = "#";
+        } else if (currSectionIndex == sections.length - 1) {
+          const footer = document.querySelectorAll('footer');
+          footer[0].scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+      
+      // Add click event to arrow for manual navigation
+      document.querySelector('.flashing-arrow').addEventListener('click', function() {
+        navigateToSection(4);
+      });
+
+</script>

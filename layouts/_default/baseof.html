@@ -16,6 +16,13 @@
   {{- partial "sections/header.html" . -}}
   <div id="content">
     {{- block "main" . }}{{- end }}
+    <div class="pe-2 pb-3 position-fixed bottom-0 end-0 flashing-arrow">
+        <!-- Use an arrow icon/image here -->
+
+      <i class="fas fa-chevron-down fa-lg"></i>
+      <i class="fas fa-chevron-down fa-lg"></i>
+      <i class="fas fa-chevron-down fa-lg"></i>
+    </div>
   </div>
   {{- partial "sections/footer/index.html" . -}}
 
