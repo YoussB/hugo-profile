@@ -145,7 +145,7 @@
         return false;
     }
       
-      function navigateToSection(index) {
+      function navigateToSection() {
         let currSectionIndex = getCurrentSection();
         const sections = document.querySelectorAll('#content section');
         if (currSectionIndex < sections.length - 1) {
@@ -161,7 +161,7 @@
       
       // Add click event to arrow for manual navigation
       document.querySelector('.flashing-arrow').addEventListener('click', function() {
-        navigateToSection(4);
+        navigateToSection();
       });
 
 </script>
